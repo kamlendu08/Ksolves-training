@@ -1,4 +1,3 @@
-const fs = require('fs');
 let arr = [1, 2, 2, 3, 4];
 let a = arr.at(0);
 console.log(a);
@@ -42,17 +41,6 @@ console.log(data);
 
 fetch("https://jsonplaceholder.typicode.com/todos/1").
   then(res => res.json()).then(res => console.log(res));
-
-fs.readFile('data.txt', 'utf-8', (err, data) => {
-  if (err) throw err;
-  console.log(data);
-
-})
-
-fs.writeFile('data.txt', 'this is new added line', 'utf-8', (err, data) => {
-  if (err) throw err;
-  console.log(data);
-})
 
 
 
