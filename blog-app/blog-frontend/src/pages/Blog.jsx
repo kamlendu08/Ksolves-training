@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
+import { CommentSection } from "../component/Commtile";
 
 export const Blog = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const uid = localStorage.getItem("id");
   const [data, setdata] = useState([]);
+  const token = localStorage.getItem("token");
+  const [comments, setcomments] = useState([]);
+  const [replyContent, setReplyContent] = useState("")
+  const [reset, setrest] = useState(false);
   useEffect(() => {
     const get = async () => {
 
@@ -17,10 +23,54 @@ export const Blog = () => {
         body: JSON.stringify({ cat: id })
       })
       const da = await ress.json();
+
+      const comms = await fetch(`http://localhost:3000/api/comment/getcomments?blog_id=${da.res[0].id}`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+      })
+      const commss = await comms.json();
+      setcomments(commss.res);
+      console.log(comments)
+      console.log(commss.res);
       setdata(da.res[0])
     }
     get();
-  }, [])
+    // console.log(data.id)
+  }, [reset])
+
+  const handleReply = async (content) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/comment/createcomment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          blog_id: data.id,
+          user_id: parseInt(uid), // Replace with actual user ID
+          parent_comment_id: "",
+          content: content,
+        }),
+      });
+
+      if (!response.ok) {
+        alert("eroor while posting")
+        throw new Error("Failed to post reply");
+
+      }
+
+      const newComment = await response.json();
+      // setComments((prevComments) => buildCommentTree([...prevComments, newComment])); // Update comments
+      setrest((e) => e = !e)
+    } catch (error) {
+      console.error("Error posting reply:", error);
+    }
+  };
   return <div>
     <div className="flex py-4 px-[200px] justify-between">
       <div className="text-3xl font-bold ">
@@ -36,6 +86,7 @@ export const Blog = () => {
         <button onClick={() => {
           localStorage.removeItem("token");
           localStorage.removeItem("isadmin")
+          localStorage.removeItem("id")
           navigate('/login');
         }} className="bg-gray-200 ml-4 cursor-pointer font-bold hover:bg-green-700 text-black border rounded-4xl py-2.5 px-4">
           Logout
@@ -55,6 +106,19 @@ export const Blog = () => {
           </div>
           <div className="pt-4">
             {data.content}
+          </div>
+          <div><CommentSection data={data} comts={comments} res={setrest} /></div>
+          <div className="mt-2">
+            <textarea className="p-2 bg-gray-200 mr-2 mt-2 rounded-2xl w-[500px] h-[60px] border border-gray-300"
+              value={replyContent}
+              onChange={(e) => setReplyContent(e.target.value)}
+              placeholder="Write a reply..."
+            />
+            <div>
+              <button className="bg-green-300 cursor-pointer font-thin hover:bg-green-400 text-black border border-green-400 rounded-4xl px-2 py-0.5 mt-2" onClick={() => {
+                handleReply(replyContent);
+              }}>Submit Comment</button>
+            </div>
           </div>
         </div>
         <div className="col-span-4">
@@ -76,11 +140,15 @@ export const Blog = () => {
               <div className="pt-2 text-slate-500">
                 Random catch phrase about the author's ability to grab the users attention
               </div>
+
             </div>
+
           </div>
         </div>
 
       </div>
     </div>
+
   </div>
 }
+

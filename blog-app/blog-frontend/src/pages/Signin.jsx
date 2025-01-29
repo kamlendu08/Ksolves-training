@@ -87,6 +87,8 @@ const signin = async function (data, navigate) {
     alert("you are not authenticated")
   } else {
     localStorage.setItem("token", ress.token);
+    localStorage.setItem("id", ress.id);
+    console.log(ress.id)
     navigate('/dashboard')
   }
 }
@@ -115,6 +117,8 @@ const signinadmin = async function (data, navigate) {
   }
   else {
     localStorage.setItem("token", ress.token);
+    localStorage.setItem("id", ress.id);
+    console.log(ress.id)
     localStorage.setItem("isadmin", true);
     navigate('/dashboard')
   }

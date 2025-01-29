@@ -66,6 +66,7 @@ export const Dashboard = () => {
           <button onClick={() => {
             localStorage.removeItem("token");
             localStorage.removeItem("isadmin")
+            localStorage.removeItem("id")
             navigate('/login');
           }} className="bg-gray-200 ml-4 cursor-pointer font-bold hover:bg-green-700 text-black border rounded-4xl py-2.5 px-4">
             Logout

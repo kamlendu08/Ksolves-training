@@ -25,7 +25,7 @@ router.post('/createBlog', authToken, (req, res) => {
 
 router.get('/bulk', authToken, (req, res) => {
   try {
-    db.raw(`SELECT * FROM blogs LEFT JOIN users ON blogs.user_id = users.id WHERE blogs."isApproved" = true`).then((data) => {
+    db.raw(`SELECT *, blogs.id as blog_id FROM blogs LEFT JOIN users ON blogs.user_id = users.id WHERE blogs."isApproved" = true`).then((data) => {
       res.json({ res: data.rows })
     }
     )
@@ -68,7 +68,7 @@ router.patch('/approve', (req, res) => {
 router.get('/bulkpending', authToken, (req, res) => {
   // console.log("reaching")
   try {
-    db.raw(`SELECT * FROM blogs LEFT JOIN users ON blogs.user_id = users.id WHERE blogs."isApproved" = false`).then((data) => {
+    db.raw(`SELECT * , blogs.id as blog_id FROM blogs LEFT JOIN users ON blogs.user_id = users.id WHERE blogs."isApproved" = false`).then((data) => {
       res.json({ res: data.rows })
     }
     )
