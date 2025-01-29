@@ -1,14 +1,16 @@
 import { Axios } from "axios"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { Quote } from "../component/Quote";
 
 export const Signup = () => {
+  const navigate = useNavigate();
   const [signup, setsignup] = useState({
     username: "",
     email: "",
     pass: ""
   })
-  return <div className="flex min-h-screen bg-gray-50 justify-center items-center">
+  return <div className=" grid grid-cols-1 lg:grid-cols-2"> <div className="hidden lg:block"><Quote /></div> <div> <div className="flex min-h-screen bg-gray-50 justify-center items-center">
     <div className="text-center">
       <div className="text-4xl font-semibold">Create  account</div>
       <div className="font-semibold mt-2">Already have an account? <Link className="underline cursor-pointer" to={'/login'}> sign in</Link></div>
@@ -35,14 +37,16 @@ export const Signup = () => {
           })
         }} />
         <button className="mt-8 cursor-pointer w-[400px] bg-gray-800 hover:bg-gray-900 text-white rounded-lg h-[44px]" onClick={() => {
-          signupfn(signup);
+          signupfn(signup, navigate);
         }}>Submit</button>
       </div>
     </div>
   </div>
+  </div>
+  </div>
 }
 
-const signupfn = async function (data) {
+const signupfn = async function (data, navigate) {
   const res = await fetch('http://localhost:3000/api/user/signup', {
     method: "POST",
     mode: "cors",
@@ -53,8 +57,12 @@ const signupfn = async function (data) {
 
     body: JSON.stringify(data),
   })
-  if (!res.ok) {
-    console.log("res")
+  const r = await res.json();
+  if (r.res == "User created successfully.") {
+    // console.log("res")
+    alert("user created successfully. please loging")
+    navigate('/login')
+
   }
   console.log(res)
 }

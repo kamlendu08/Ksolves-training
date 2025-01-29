@@ -61,6 +61,7 @@ router.post('/signin', (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const pass = req.body.pass;
+  console.log(email)
   db.raw(`SELECT * FROM users where email = ?`, email).then((data) => {
     if (data.rows.length == 0) {
       res.status(400).json({ res: "user with this email doesn't exits" });
@@ -72,7 +73,10 @@ router.post('/signin', (req, res) => {
     else {
       const info = data.rows[0];
       const token = jwt.sign(email, process.env.JWT_SECRET);
-      res.json({ token: token })
+      res.json({
+        token: token,
+        isadmin: data.rows[0].isAdmin
+      })
     }
   })
 })
