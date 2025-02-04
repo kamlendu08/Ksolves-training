@@ -93,8 +93,8 @@ export const CommentSection = ({ data, comts, res }) => {
         <div>
           <div style={{ marginLeft: comment.parent_comment_id ? "20px" : "0" }}>
             <div>
-              <strong>{comment.username}</strong>
-              <div className="p-2 bg-green-100 rounded rounded-2xl">{comment.content}</div>
+              <div className="text-gray-500 font-bold">{comment.username}</div>
+              <div className="p-2 bg-green-200 rounded rounded-2xl">{comment.content}</div>
               <button className="bg-green-300 cursor-pointer font-thin hover:bg-green-800 text-black text-[12px] border border-green-300 rounded-4xl px-2 mb-2" onClick={() => setIsReplying(!isReplying)}>Reply</button>
             </div>
 
@@ -130,7 +130,7 @@ export const CommentSection = ({ data, comts, res }) => {
 
   return (
     <div>
-      <div className="mt-2 font-bold text-2xl mb-2">Comments</div>
+      <div className="mt-2 font-bold text-xl">Comments</div>
       {comments.length === 0 ? (
         <p>No comments yet. Be the first to comment!</p>
       ) : (

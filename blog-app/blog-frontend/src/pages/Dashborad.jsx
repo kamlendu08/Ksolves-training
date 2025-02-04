@@ -80,7 +80,11 @@ export const Dashboard = () => {
             <button onClick={() => setapproved(true)} className={` ${approved === true ? 'bg-green-700' : 'bg-gray-400'} cursor-pointer font-bold hover:bg-green-800 text-white border rounded-4xl py-2.5 px-4`}>{`Approved (${rows.res.length})`}</button>
             <button onClick={() => setapproved(false)} className={`${approved === false ? 'bg-green-700' : 'bg-gray-400'} cursor-pointer font-bold hover:bg-green-800 text-white border rounded-4xl py-2.5 px-4 ml-4`}>{`Pending (${pending.res.length})`}</button>
           </div>
-        </div>) : null
+        </div>) : (
+        <div className="flex items-center justify-center">
+          <button onClick={() => { }} className=" font-bold text-black border border-green-400 rounded-4xl py-2.5 px-4">{`Published Blogs (${rows.res.length})`}</button>
+        </div>
+      )
       }
       {(approved ? rows.res : pending.res).
         sort((a, b) => new Date(b.create_at) - new Date(a.create_at)).
@@ -92,7 +96,7 @@ export const Dashboard = () => {
 function blogtile(data, isadmin, navigate, setuser) {
   return <div className="flex items-center w-full justify-center cursor-pointer"> <div onClick={(e) => {
     navigate(`/blog/${data.create_at}`)
-  }} className="p-4 w-[800px]" key={data.create_at}>
+  }} className="p-4 w-[800px] bg-green-200 rounded-4xl m-2 hover:bg-green-300" key={data.create_at}>
     <div className="flex items-center">
       <div className="flex flex-col ml-4 items-center justify-center border border-gray-700 rounded-full bg-gray-300 font-semibold px-4 py-2">{data.username[0]}</div>
       <div className="ml-4 font-thin">{data.username}</div>
@@ -106,18 +110,17 @@ function blogtile(data, isadmin, navigate, setuser) {
           <button onClick={(e) => {
             e.stopPropagation();
             handleDelete(data.create_at, setuser);
-          }} className="bg-gray-200 ml-4 cursor-pointer hover:bg-gray-500 text-black border border-gray-300 rounded-4xl py-1 px-3">Remove</button>
+          }} className="bg-red-100 ml-4 cursor-pointer hover:bg-red-200 text-black border border-red-300 rounded-4xl py-1 px-3">Remove</button>
         </div>
       </div>
     )}
-    <hr className="border-gray-300 mt-3" />
   </div> </div>
 }
 
 function pblogtile(data, isadmin, navigate, setuser) {
-  return <div className="flex items-center w-full justify-center cursor-pointer"> <div onClick={(e) => {
+  return <div className="flex items-center w-full justify-center cursor-pointer "> <div onClick={(e) => {
     navigate(`/blog/${data.create_at}`)
-  }} className="p-4 w-[800px]" key={data.create_at}>
+  }} className="p-4 w-[800px] bg-gray-200 rounded-4xl m-2 hover:bg-gray-300" key={data.create_at}>
     <div className="flex items-center">
       <div className="flex flex-col ml-4 items-center justify-center border border-gray-700 rounded-full bg-gray-300 font-semibold px-4 py-2">{data.username[0]}</div>
       <div className="ml-4 font-thin">{data.username}</div>
@@ -137,11 +140,10 @@ function pblogtile(data, isadmin, navigate, setuser) {
           <button onClick={(e) => {
             e.stopPropagation();
             handleDelete(data.create_at, setuser);
-          }} className="bg-gray-200 ml-4 cursor-pointer hover:bg-gray-500 text-black border border-gray-300 rounded-4xl py-1 px-3">Remove</button>
+          }} className="bg-red-100 ml-4 cursor-pointer hover:bg-red-200 text-black border border-gray-300 rounded-4xl py-1 px-3">Remove</button>
         </div>
       </div>
     )}
-    <hr className="border-gray-300 mt-3" />
   </div> </div>
 }
 

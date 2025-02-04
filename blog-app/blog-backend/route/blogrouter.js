@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const authToken = require('../middleware');
 const db = require('../db');
+const jobController = require('../controllers/jobScheduleController');
 
+router.delete('/deletePending', jobController);
 
 router.post('/createBlog', authToken, (req, res) => {
   const email = req.body.email;
@@ -22,6 +24,7 @@ router.post('/createBlog', authToken, (req, res) => {
   })
 
 })
+
 
 router.get('/bulk', authToken, (req, res) => {
   try {

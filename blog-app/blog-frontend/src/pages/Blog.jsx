@@ -107,7 +107,7 @@ export const Blog = () => {
           <div className="pt-4">
             {data.content}
           </div>
-          <div><CommentSection data={data} comts={comments} res={setrest} /></div>
+          <div className="px-6 bg-green-50 pb-2 rounded-2xl"><CommentSection data={data} comts={comments} res={setrest} /></div>
           <div className="mt-2">
             <textarea className="p-2 bg-gray-200 mr-2 mt-2 rounded-2xl w-[500px] h-[60px] border border-gray-300"
               value={replyContent}
@@ -115,7 +115,7 @@ export const Blog = () => {
               placeholder="Write a reply..."
             />
             <div>
-              <button className="bg-green-300 cursor-pointer font-thin hover:bg-green-400 text-black border border-green-400 rounded-4xl px-2 py-0.5 mt-2" onClick={() => {
+              <button className="bg-green-300 cursor-pointer font-thin hover:bg-green-400 text-black border border-green-400 rounded-4xl px-2 py-0.5 my-2" onClick={() => {
                 handleReply(replyContent);
               }}>Submit Comment</button>
             </div>
